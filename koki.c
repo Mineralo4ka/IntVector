@@ -3,11 +3,11 @@
 int main()
 {
     char a;
-    int N;
+    int N, i;
 
     printf("Xotite repair all labs po vsem lessions?(y or n?)\nAnswer: ");
     scanf("%c", &a);
-    printf("Ckolko tebe age?");
+    printf("Ckolko tebe age? ");
     scanf("%d", &N);
     
     if (a == 'y'){
