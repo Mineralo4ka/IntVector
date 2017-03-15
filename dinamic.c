@@ -1,86 +1,116 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct 
-{
-	int *v;
-	size_t size;
-	size_t capacity;
-
-} IntVector;
-
-IntVector *int_vector_new(size_t initial_capacity)
-{
-	//Создание массива
-	IntVector *o = malloc(sizeof(IntVector));
-	o -> v = calloc(initial_capacity, initial_capacity * sizeof(int));
-	o -> size = 0;
-	o -> capacity = initial_capacity;
-	return o;
-}
-
-size_t int_vector_get_size(const IntVector *v)
-{
-	return v -> size;
-}
-
-size_t int_vector_get_capacity(const IntVector *v)
-{
-	return v -> capacity;
-}
-
-IntVector *int_vector_copy(const IntVector *d)
-{
-	//Копирование массива
-	IntVector *o = malloc(sizeof(IntVector));
-	o -> v =  malloc(o -> capacity * sizeof(int));
-	memcpy(o -> v, d -> v, sizeof(int) * o -> size);
-	o -> size = int_vector_get_size(d);
-	o -> capacity = int_vector_get_capacity(d);
-	return o;
-}
-
-/*int int_vector_get_item(const IntVector *v, size_t index)
-{
-	return v -> v[index];
-}
-
-void int_vector_set_item(IntVector *v, size_t index, int item)
-{
-
-}*/
-
-void int_vector_free(IntVector *v)
-{
-	free(v);
-}
+#include "vector.h"
 
 int main()
 {
-	int i, N;
-	N = 6;
+	int new_num;
+    int input_capacity, input_item, input_change_num, input_new_num, new_capacity, new_size;
+    int h = 1, counter = 0;
 
-	IntVector *w, *h, *c;
-	w = int_vector_new(6);
-	h = int_vector_copy(w);
-	//c = int_vector_get_item(v, 2);
-	//int_vector_set_item(w, 2, 3);
-	int_vector_free(w);
+    printf("Введите емкость вектора: ");
+    scanf("%d", &input_capacity);
+    IntVector *v = int_vector_new(input_capacity);
 
-	printf("Созданный массив: \n");
-	for (i = 0; i < N; ++i) {
-		printf("%d", w -> v[i]);
-	}
-	printf("\n");
-	
-	printf("Скопированный массив: \n");
-	for (i = 0; i < N; ++i) {
-		printf("%d", h -> v[i]);
-	}
-	printf("\n");
+    scanf("%d", &counter);
 
-	//printf("Вы получите второй элемент вектора: %d", c -> v);
+    while(h) {
+        int_vector_clear();
+        switch (counter) {
+            case 1:
+                //enter elements or add elements
+                scanf("%d", &input_item);
+                int_vector_push_back(v, input_item);
+                printf("Введенный элемент:[%d] - %d\n", input_item, v -> data[input_item]);
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 2:
+                //change element
+                printf("Введите номер элемента и новое значение: ");
+                scanf("%d %d", &input_change_num, &input_new_num);
+                int_vector_set_item(v, input_change_num, input_new_num);
+                printf("Изменен элемент [%d]-%d", input_change_num, v -> data[input_change_num]);
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 3:
+                //Delete last element
+                int_vector_pop_back(v);
+                printf("Последний элемент был удален\n");
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 4:
+                //Change capacity
+                printf("Введите новую емкость вектора: ");
+                scanf("%d", &new_capacity);
+                int_vector_reserve(v, new_capacity);
+                printf("Новая емкость вектора: %zu\n", v -> capacity);
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 5:
+                //Change size
+                printf("Введите новый размер вектора: ");
+                scanf("%d", &new_size);
+                int_vector_resize(v, new_size);
+                printf("Новый размер вашего вектора: %zu\n", v -> size);
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 6:
+                //Copy vector
+                printf("Текущий вектор: \n");
+                for (int i = 0; i < int_vector_get_size(v); ++i) {
+                    printf("%d", v -> data[i]);
+                }
+                printf("\n");
 
-	return 0;
+                int_vector_copy(v);
+                printf("Скопированный массив: \n");
+                for (int j = 0; j < int_vector_get_size(v); ++j) {
+                    printf("%d", v -> data[j]);
+                }
+                printf("\n");
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 7:
+                //Shrink vector
+                int_vector_shrink_to_fit(v);
+                printf("Полный вектор: \n");
+                for (int i = 0; i < int_vector_get_capacity(v); ++i) {
+                    printf("%d", v -> data[i]);
+                }
+                printf("\n");
+                printf("Ваша емкость вектора была уменьшена до его размера");
+                for (int i = 0; i < int_vector_get_size(v); ++i) {
+                    printf("%d", v -> data[i]);
+                }
+                printf("\n");
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 8:
+                //Get item
+                printf("Какой элемент вы хотите получить?");
+                scanf("%d", &new_num);
+                int_vector_get_item(v, new_num);
+                printf("Ваш элемент [%d] - %d\n", new_num, v -> data[new_num]);
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+            case 9:
+                h = 0;
+                break;
+            default:
+                printf("Неправильный пункт меню.\n");
+                menu(counter);
+                scanf("%d", &counter);
+                break;
+        }
+    }
+    int_vector_free(v);
+
+    return 0;
 }
