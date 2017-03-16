@@ -4,23 +4,29 @@
 int main()
 {
 	int new_num;
-    int input_capacity, input_item, input_change_num, input_new_num, new_capacity, new_size;
+    int init_capacity, input_item, input_change_num, input_new_num, New_capacity, New_size;
     int h = 1, counter = 0;
 
-    printf("Введите емкость вектора: ");
-    scanf("%d", &input_capacity);
-    IntVector *v = int_vector_new(input_capacity);
+    IntVector *l = NULL;
+    IntVector *k = NULL;
+    int e, a, w;
 
+    printf("Введите емкость вектора: ");
+    scanf("%d", &init_capacity);
+    IntVector *v = int_vector_new(init_capacity);
+    v -> size = 0;
+
+    menu(counter);
     scanf("%d", &counter);
 
-    while(h) {
+    while(h != 0) {
         int_vector_clear();
         switch (counter) {
             case 1:
                 //enter elements or add elements
                 scanf("%d", &input_item);
-                int_vector_push_back(v, input_item);
-                printf("Введенный элемент:[%d] - %d\n", input_item, v -> data[input_item]);
+                w = int_vector_push_back(v, input_item);
+                //printf("Введенный элемент:[%d] - %d\n", input_item, w -> data[input_item]);
                 menu(counter);
                 scanf("%d", &counter);
                 break;
@@ -29,7 +35,7 @@ int main()
                 printf("Введите номер элемента и новое значение: ");
                 scanf("%d %d", &input_change_num, &input_new_num);
                 int_vector_set_item(v, input_change_num, input_new_num);
-                printf("Изменен элемент [%d]-%d", input_change_num, v -> data[input_change_num]);
+                printf("Изменен элемент [%d] - %d\n", input_change_num, v -> data[input_change_num - 1]);
                 menu(counter);
                 scanf("%d", &counter);
                 break;
@@ -43,18 +49,19 @@ int main()
             case 4:
                 //Change capacity
                 printf("Введите новую емкость вектора: ");
-                scanf("%d", &new_capacity);
-                int_vector_reserve(v, new_capacity);
-                printf("Новая емкость вектора: %zu\n", v -> capacity);
+                scanf("%d", &New_capacity);
+
+                a = int_vector_reserve(v, New_capacity);
+                //printf("Новая емкость вектора: %zu\n", a -> capacity);
                 menu(counter);
                 scanf("%d", &counter);
                 break;
             case 5:
                 //Change size
                 printf("Введите новый размер вектора: ");
-                scanf("%d", &new_size);
-                int_vector_resize(v, new_size);
-                printf("Новый размер вашего вектора: %zu\n", v -> size);
+                scanf("%d", &New_size);
+                k = int_vector_resize(v, New_size);
+                //printf("Новый размер вашего вектора: %zu\n", k -> size);
                 menu(counter);
                 scanf("%d", &counter);
                 break;
@@ -66,10 +73,10 @@ int main()
                 }
                 printf("\n");
 
-                int_vector_copy(v);
+                l = int_vector_copy(v);
                 printf("Скопированный массив: \n");
                 for (int j = 0; j < int_vector_get_size(v); ++j) {
-                    printf("%d", v -> data[j]);
+                    printf("%d", l -> data[j]);
                 }
                 printf("\n");
                 menu(counter);
@@ -77,15 +84,16 @@ int main()
                 break;
             case 7:
                 //Shrink vector
-                int_vector_shrink_to_fit(v);
+                e = int_vector_shrink_to_fit(v);
                 printf("Полный вектор: \n");
-                for (int i = 0; i < int_vector_get_capacity(v); ++i) {
-                    printf("%d", v -> data[i]);
+                for (int i = 0; i < int_vector_get_capacity(e); ++i) {
+                    printf("%d", int_vector_get_item(e, i));
                 }
                 printf("\n");
+
                 printf("Ваша емкость вектора была уменьшена до его размера");
-                for (int i = 0; i < int_vector_get_size(v); ++i) {
-                    printf("%d", v -> data[i]);
+                for (int i = 0; i < int_vector_get_size(e); ++i) {
+                    printf("%d", int_vector_get_item(e, i));
                 }
                 printf("\n");
                 menu(counter);
@@ -101,13 +109,14 @@ int main()
                 scanf("%d", &counter);
                 break;
             case 9:
+                //Quit
                 h = 0;
                 break;
-            default:
+            /*default:
                 printf("Неправильный пункт меню.\n");
                 menu(counter);
                 scanf("%d", &counter);
-                break;
+                break;*/
         }
     }
     int_vector_free(v);

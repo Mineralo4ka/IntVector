@@ -6,12 +6,12 @@
 IntVector *int_vector_new(size_t init_capacity)
 {
     //Создание массива
-    /*IntVector *o = malloc(sizeof(IntVector));
-    o -> data = calloc(initial_capacity, initial_capacity * sizeof(int));
+    IntVector *o = malloc(sizeof(IntVector));
+    o -> data = calloc(init_capacity, init_capacity * sizeof(int));
     o -> size = 0;
-    o -> capacity = initial_capacity;
-    return o;*/
-    IntVector *v = (IntVector *) malloc(sizeof(IntVector));
+    o -> capacity = init_capacity;
+    return o;
+    /*IntVector *v = (IntVector *) malloc(sizeof(IntVector));
 	if (v != NULL) {
 		v->data = calloc(init_capacity, sizeof(size_t));
 		if (v->data != NULL) {
@@ -24,19 +24,19 @@ IntVector *int_vector_new(size_t init_capacity)
 		}
 	} else
 		return NULL;
-		exit(0);
+		exit(0);*/
 }
 
 IntVector *int_vector_copy(const IntVector *v)
 {
     //Копирование массива
-    /*IntVector *o = malloc(sizeof(IntVector));
+    IntVector *o = malloc(sizeof(IntVector));
     o -> data =  malloc(o -> capacity * sizeof(int));
     memcpy(o -> data, v -> data, sizeof(int) * o -> size);
     o -> size = int_vector_get_size(v);
     o -> capacity = int_vector_get_capacity(v);
-    return o;*/
-    IntVector *v_copy = (IntVector *) malloc(sizeof(IntVector));
+    return o;
+    /*IntVector *v_copy = (IntVector *) malloc(sizeof(IntVector));
 	if (v_copy != NULL) {
 		v_copy->data = (int *) malloc (v->capacity * sizeof(int));
 		if (v_copy->data != NULL) {
@@ -51,7 +51,7 @@ IntVector *int_vector_copy(const IntVector *v)
 		}
 	} else
 		return NULL;
-		exit(0);
+		exit(0);*/
 }
 
 void int_vector_free(IntVector *v)
@@ -106,11 +106,23 @@ void int_vector_set_item(IntVector *v, size_t index, int item)
 
 int int_vector_shrink_to_fit(IntVector *v)
 {
-    if ((v->data = (int *) realloc(v->data, v->size * sizeof(int))) != NULL) {
+    /*if ((v->data = (int *) realloc(v->data, v->size * sizeof(int))) != NULL) {
         v->capacity = v->size;
         return 0;
     } else {
         return -1;
+    }*/
+    if (v -> size == 0) {
+        v -> capacity = v -> size;
+    }else{
+        v -> data = realloc (v -> data, ( v -> size) * sizeof(int)); 
+    }
+
+    if ( v -> data == NULL) {
+        return -1;
+    }else {
+        v -> capacity = v -> size;
+        return 0;
     }
 }
 
@@ -153,7 +165,7 @@ int int_vector_reserve(IntVector *v, size_t new_capacity)
 int menu(int input_counter)
 {
     printf("Введите нужную вам опцию: \n");
-    printf("\t1 <- Введите или добавьте элемент\n");
+    printf("\t1 <- Добавить элемент.\n");
     printf("\t2 <- Изменение элемента.\n");
     printf("\t3 <- Удаление последнего элемента.\n");
     printf("\t4 <- Изменение емкости\n");
@@ -188,6 +200,9 @@ int menu(int input_counter)
 		case 8:
 			return 8;
 			break;
+        case 9:
+            return 9;
+            break;
 		default:
 			return 0;
 	}
