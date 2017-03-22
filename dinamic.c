@@ -11,6 +11,10 @@ int main()
     IntVector *k = NULL;
     int e, a, w;
 
+    printf("/*************************************************/\n");
+    printf("/\tДобро пожаловать в наш скромный уголок!\t  /\n");
+    printf("/*************************************************/\n\n");
+
     printf("Введите емкость вектора: ");
     scanf("%d", &init_capacity);
     IntVector *v = int_vector_new(init_capacity);
@@ -20,7 +24,11 @@ int main()
     scanf("%d", &counter);
 
     while(h != 0) {
-        int_vector_clear();
+        //int_vector_clear();
+        printf("****************************************\n");
+        printf("Размер массива: %zu\n", v -> size);
+        printf("Емкость массива: %zu\n", v -> capacity);
+        printf("****************************************\n\n");
         switch (counter) {
             case 1:
                 //enter elements or add elements
@@ -101,7 +109,7 @@ int main()
                 break;
             case 8:
                 //Get item
-                printf("Какой элемент вы хотите получить?");
+                printf("Какой элемент вы хотите получить?\n");
                 scanf("%d", &new_num);
                 int_vector_get_item(v, new_num);
                 printf("Ваш элемент [%d] - %d\n", new_num, v -> data[new_num]);
@@ -110,6 +118,7 @@ int main()
                 break;
             case 9:
                 //Quit
+                printf("До скорых встреч!\n");
                 h = 0;
                 break;
             /*default:

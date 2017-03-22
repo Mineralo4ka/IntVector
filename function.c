@@ -164,7 +164,7 @@ int int_vector_reserve(IntVector *v, size_t new_capacity)
 }
 int menu(int input_counter)
 {
-    printf("Введите нужную вам опцию: \n");
+    printf("\n\nВведите нужную вам опцию: \n");
     printf("\t1 <- Добавить элемент.\n");
     printf("\t2 <- Изменение элемента.\n");
     printf("\t3 <- Удаление последнего элемента.\n");
@@ -203,8 +203,8 @@ int menu(int input_counter)
         case 9:
             return 9;
             break;
-		default:
-			return 0;
+		/*default:
+			return 0;*/
 	}
 }
 
