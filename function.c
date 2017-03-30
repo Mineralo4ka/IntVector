@@ -30,13 +30,13 @@ IntVector *int_vector_new(size_t init_capacity)
 IntVector *int_vector_copy(const IntVector *v)
 {
     //Копирование массива
-    IntVector *o = malloc(sizeof(IntVector));
+    /*IntVector *o = malloc(sizeof(IntVector));
     o -> data =  malloc(o -> capacity * sizeof(int));
     memcpy(o -> data, v -> data, sizeof(int) * o -> size);
     o -> size = int_vector_get_size(v);
     o -> capacity = int_vector_get_capacity(v);
-    return o;
-    /*IntVector *v_copy = (IntVector *) malloc(sizeof(IntVector));
+    return o;*/
+    IntVector *v_copy = (IntVector *) malloc(sizeof(IntVector));
 	if (v_copy != NULL) {
 		v_copy->data = (int *) malloc (v->capacity * sizeof(int));
 		if (v_copy->data != NULL) {
@@ -51,7 +51,7 @@ IntVector *int_vector_copy(const IntVector *v)
 		}
 	} else
 		return NULL;
-		exit(0);*/
+		exit(0);
 }
 
 void int_vector_free(IntVector *v)
@@ -162,7 +162,7 @@ int int_vector_reserve(IntVector *v, size_t new_capacity)
         }
     }
 }
-int menu(int input_counter)
+int menu(int input_counter, const IntVector *v)
 {
     printf("\n\nВведите нужную вам опцию: \n");
     printf("\t1 <- Добавить элемент.\n");
@@ -174,6 +174,11 @@ int menu(int input_counter)
     printf("\t7 <- Уменьшает емкость массива до его размера.\n");
     printf("\t8 <- Получение элемента.\n");
     printf("\t9 <- Выход\n");
+
+    printf("****************************************\n");
+    printf("Размер массива: %zu\n", v -> size);
+    printf("Емкость массива: %zu\n", v -> capacity);
+    printf("****************************************\n\n");
 
     switch(input_counter) {
 		case 1:
@@ -203,12 +208,7 @@ int menu(int input_counter)
         case 9:
             return 9;
             break;
-		/*default:
-			return 0;*/
+		default:
+			return 0;
 	}
-}
-
-void int_vector_clear()
-{
-    system("clear");
 }

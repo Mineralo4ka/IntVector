@@ -21,7 +21,6 @@ void int_vector_free(IntVector *v);
 int int_vector_shrink_to_fit(IntVector *v);
 int int_vector_resize(IntVector *v, size_t new_size);
 int int_vector_reserve(IntVector *v, size_t new_capacity);
-int menu(int input_counter);
-void int_vector_clear(void);
+int menu(int input_counter, const IntVector *v);
 
 #endif //PROJECT_VECTOR_H
